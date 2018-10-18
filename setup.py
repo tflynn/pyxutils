@@ -1,9 +1,9 @@
 from setuptools import setup, find_packages
 
-setup(name='pyutils',
-      version='0.1',
+setup(name='pyxutils',
+      version='0.2',
       description='',
-      url='https://github.com/tflynn/pyutils.git',
+      url='https://github.com/tflynn/pyxutils.git',
       author='Tracy Flynn',
       author_email='tracysflynn@gmail.com',
       license='MIT',

@@ -56,21 +56,46 @@ def guess_package(current_dir=None, depth=1):
 
 
 def get_package_path(package_name=None):
+    """
+    Get the absolute path for a package
+
+    Only appears to work for packages at the root.
+
+    :param str package_name: Package name
+    :return: Package name or None
+    :rtype: str
+    """
     package_name = package_name if package_name else guess_package()
-    possible_path = pkg_resources.resource_filename(package_name, '/')
-    possible_path = path.normpath(possible_path)
-    return possible_path if path.exists(possible_path) else None
+    resource_path = pkg_resources.resource_filename(package_name, '/')
+    resource_path = path.normpath(resource_path)
+    return resource_path if path.exists(resource_path) else None
 
 
 def get_data_path(file_name=None, data_directory_name='data', package_name=None):
-    if file_name:
-        possible_path = pkg_resources.resource_filename(guess_package(package_name),
-            "{0}/{1}".format(data_directory_name,file_name))
+    """
+    Get the path to a file in data directory for a package (<package>/data/<filename>).
+
+    Only appears to work for packages at the root.
+
+    :param str file_name: File name in data directory
+    :param str data_directory_name: package/directory (below root)
+    :param str package_name: Package name
+    :return: Directory or file path or None
+    :rtype: str
+    """
+    package_name = package_name if package_name else guess_package()
+    package_path = get_package_path(package_name=package_name)
+    if package_path:
+        base_data_path = path.normpath(path.join(package_path, data_directory_name))
+        if file_name:
+            resource_path = path.normpath(path.join(base_data_path, file_name))
+        else:
+            resource_path = base_data_path
+
+        return resource_path if path.exists(resource_path) else None
+
     else:
-        possible_path = pkg_resources.resource_filename(guess_package(package_name),
-            "{0}/".format(data_directory_name))
-    possible_path = path.normpath(possible_path)
-    return possible_path if path.exists(possible_path) else None
+        return None
 
 
 if __name__ == '__main__':
