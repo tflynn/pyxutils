@@ -14,7 +14,7 @@ Get (absolute) package path
 
 
 
-Get (abolute) data path - default is <package dir>/data
+Get (absolute) data path - default is <package dir>/data
 
 ::
 
